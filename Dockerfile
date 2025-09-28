@@ -8,21 +8,24 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libgl1-mesa-glx \
+        libglib2.0-0 \
         libsm6 \
         libxext6 \
         libxrender1 \
-        gfortran && \
-    rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy the rest of the application code and assets
+# Copy your entire project
 COPY . /app
 
-# Expose the port
+# Create data directory for logging
+RUN mkdir -p /app/data
+
+# Expose port 8000
 EXPOSE 8000
 
-# Set the command to run the application
+# Run the FastAPI app
 CMD ["uvicorn", "traffic_full:app", "--host", "0.0.0.0", "--port", "8000"]
