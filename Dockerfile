@@ -1,13 +1,8 @@
-# Use standard Python 3.10 image
-FROM python:3.10-slim
+# Use a Python image with OpenCV precompiled (headless)
+FROM python:3.10
 
 # Set working directory
 WORKDIR /app
-
-# Install only essential system dependencies for OpenCV
-RUN apt-get update && \
-    apt-get install -y libgl1-mesa-glx libsm6 libxext6 && \
-    rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
@@ -19,7 +14,7 @@ COPY . .
 # Create folder for logs/db
 RUN mkdir -p /app/data
 
-# Expose port
+# Expose FastAPI port
 EXPOSE 8000
 
 # Start FastAPI app
