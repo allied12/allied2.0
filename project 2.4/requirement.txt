@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+opencv-python
+pandas
+numpy
+ultralytics
+# Use specific versions for stability, especially for ML libraries
+tensorflow==2.16.1
+scikit-learn

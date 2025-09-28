@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALLIED TRAFFIC MANAGER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard_assets/01.css">
+</head>
+<body>
+
+    <div class="fixed top-0 left-0 w-full h-full -z-10" style="background-image: url('https://images.unsplash.com/photo-1501630834273-4b5604d2ee31?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center; background-attachment: fixed;"></div>
+
+    <div id="priority-alert" class="hidden fixed top-4 left-1/2 -translate-x-1/2 bg-red-700 text-white font-bold py-2 px-6 rounded-full shadow-lg z-50">
+        🚨 Priority Vehicle Detected!
+    </div>
+
+    <div class="relative w-full max-w-7xl z-10">
+        <div class="glass-card p-6 lg:p-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+                <div class="lg:col-span-3 flex flex-col gap-6">
+                    <div class="relative aspect-video rounded-3xl overflow-hidden p-4 flex flex-col justify-between bg-black/50">
+                        <img id="videoFeed" src="/video_feed" class="absolute top-0 left-0 w-full h-full object-cover z-0" alt="Traffic Feed">
+                        <div class="relative z-10 flex justify-between items-start">
+                             <div>
+                                <h3 class="font-bold text-lg">LIVE TRAFFIC FEED</h3>
+                                <p class="text-sm text-gray-300">(specify location)</p>
+                            </div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                         <div class="glass-card p-4 flex flex-col justify-between">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                             <div>
+                                <h4 class="font-semibold">Challan</h4>
+                                <p id="challan-date" class="text-sm text-gray-300"></p>
+                            </div>
+                         </div>
+                        
+                         <div class="glass-card p-6 flex flex-col items-center">
+                            <h2>Traffic Signals</h2>
+                            <div class="flex gap-8 mt-4">
+                                <div id="left-signal" class="w-16 h-16 rounded-full bg-red-500"></div>
+                                <div id="right-signal" class="w-16 h-16 rounded-full bg-red-500"></div>
+                            </div>
+                            <p class="text-sm mt-4 text-gray-300">Signals adapt based on density and priority.</p>
+                         </div>
+
+                         <div class="glass-card p-4 sm:col-span-2 bg-gradient-to-br from-purple-600/30 to-pink-600/30 flex flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg>
+                                <div id="alert-toggle" class="toggle-switch on">
+                                    <div class="toggle-switch-dot"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Vehicle Alerts</h4>
+                                <div class="flex items-center gap-4 mt-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                                    <div class="w-full h-2 rounded-full slider-track relative">
+                                        <div class="absolute h-full w-[67%] bg-white rounded-full"></div>
+                                        <div class="absolute h-4 w-4 bg-white rounded-full -top-1 slider-thumb" style="left: calc(67% - 8px);"></div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 flex flex-col gap-6">
+                    <div class="glass-card p-6 flex-grow flex flex-col items-center justify-around">
+                        <div class="w-full text-center mb-4">
+                            <h3 class="font-bold text-lg">Lane Based Analysis</h3>
+                            <p class="text-sm text-gray-300">Live Data</p>
+                        </div>
+                        <div class="chart-container relative w-[220px] h-[220px]">
+                            <canvas id="lanePie"></canvas>
+                        </div>
+                        <div class="legend mt-4" id="legend"></div>
+                    </div>
+                    
+                    <div class="glass-card p-6 flex-grow flex flex-col items-center justify-around">
+                        <div class="w-full text-center mb-4">
+                            <h3 class="font-bold text-lg">Traffic Prediction</h3>
+                            <p class="text-sm text-gray-300">Next 5 Minutes</p>
+                        </div>
+                        <div class="chart-container relative w-[220px] h-[220px]">
+                            <canvas id="predictionChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div id="emergency-vehicle-block" class="glass-card p-4 flex items-center justify-between">
+                         <h4 class="font-semibold text-red-500">Emergency Vehicle:</h4>
+                         <p id="emergency-vehicle-type" class="text-lg font-bold text-red-300">None</p>
+                    </div>
+
+                    <div class="glass-card p-4 flex items-center gap-4">
+                        <img src="https://images.unsplash.com/photo-1508179929555-33a5b6a503a6?q=80&w=2787&auto=format&fit=crop" alt="Album Art" class="w-16 h-16 rounded-xl object-cover">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-semibold">Mog-ni-ty</h4>
+                                <span class="text-xs text-gray-400">2:21</span>
+                            </div>
+                            <p class="text-sm text-gray-300">LUNA</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <button class="text-gray-300 hover:text-white transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
+                                </button>
+                                <button class="text-gray-300 hover:text-white transition-colors">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+                                </button>
+                                <button class="text-gray-300 hover:text-white transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute top-1/2 -translate-y-1/2 -left-20 hidden lg:flex flex-col gap-3">
+             <div class="glass-nav rounded-full p-2 flex flex-col gap-2">
+                 <button class="w-12 h-12 flex items-center justify-center bg-white/20 rounded-full">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                 </button>
+                 <button class="w-12 h-12 flex items-center justify-center hover:bg-white/10 rounded-full text-gray-300 transition-colors">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M4 12v8"></path><path d="M4 4v2"></path><path d="M4 10v2"></path><path d="M10 4h10"></path><path d="M10 18h4"></path><path d="M16 4h4"></path><path d="M16 10h4"></path><path d="M20 16h2"></path><path d="M12 4v2"></path><path d="M12 10v2"></path><path d="M12 16v4"></path></svg>
+                 </button>
+                 <button class="w-12 h-12 flex items-center justify-center hover:bg-white/10 rounded-full text-gray-300 transition-colors">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                 </button>
+             </div>
+        </div>
+    </div>
+
+    <script src="/dashboard_assets/01.js" defer></script>
+</body>
+</html>

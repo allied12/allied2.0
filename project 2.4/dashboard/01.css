@@ -1,0 +1,129 @@
+body {
+    font-family: 'Inter', sans-serif;
+    /* REMOVED: background-image: url('...'); */
+    background-color: #1a1a1a; /* SET A DARK FALLBACK COLOR */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Added from Tailwind base for consistency */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+@media (min-width: 640px) {
+    body {
+        padding: 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    body {
+        padding: 2rem;
+    }
+}
+
+.glass-card {
+    background: rgba(30, 30, 30, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-nav {
+    background: rgba(30, 30, 30, 0.25);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toggle-switch {
+    width: 56px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 9999px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.toggle-switch-dot {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+}
+
+.toggle-switch.on {
+    background-color: #A855F7; /* Purple 500 */
+}
+
+.toggle-switch.on .toggle-switch-dot {
+    transform: translateX(24px);
+}
+
+.slider-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.slider-thumb {
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.2);
+}
+
+/* Styles for the pie chart */
+.legend {
+    font-size:14px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    align-self: flex-start;
+    margin-left: 20px;
+}
+.legend-item {
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+.swatch {
+    width:16px;
+    height:16px;
+    border-radius:4px;
+}
+.controls {
+    display:flex;
+    gap:8px;
+    justify-content:center;
+}
+.controls input[type=number] {
+    color: #333;
+    width:64px;
+    padding:6px 8px;
+    border-radius:6px;
+    border:1px solid #521616;
+}
+.controls button {
+    padding:6px 10px;
+    border-radius:6px;
+    border:none;
+    background:#4f46e5;
+    color:white;
+    cursor:pointer;
+}
+
+/*
+FIX: Added this rule to give the chart's container a defined size.
+This was the missing piece causing the chart to be invisible.
+*/
+.chart-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+}
