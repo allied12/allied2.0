@@ -33,10 +33,12 @@ is_priority_vehicle_present = {"left_lane": False, "right_lane": False}
 priority_vehicle_type = "None"
 
 # Path to video (change if needed)
-video_path = r"C:\Users\punit\OneDrive\Documents\sabalepbl[1]\sabalepbl\WhatsApp Video 2025-04-11 at 20.39.12_158847b0.mp4"
+video_path = video_path = "video/input.mp4"
+
 
 # Log file for prediction data
-downloads_path = Path.home() / 'Downloads'
+downloads_path = Path("data")
+
 log_file_path = downloads_path / 'traffic_project_logs' / 'traffic_log.csv'
 log_file_path.parent.mkdir(parents=True, exist_ok=True)
 db_path = downloads_path / 'traffic_project.db'
@@ -347,4 +349,5 @@ if __name__ == "__main__":
     signal_thread = threading.Thread(target=manage_signals, daemon=True)
     signal_thread.start()
     
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
