@@ -1,30 +1,26 @@
-# Use a standard Python image
+# Base Python image
 FROM python:3.10
 
 # Set working directory
 WORKDIR /app
 
-# Install only the necessary system dependencies for OpenCV
+# Install OpenCV dependencies
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        libgl1-mesa-glx \
-        libsm6 \
-        libxext6 \
-        libxrender1 \
-    && rm -rf /var/lib/apt/lists/*
+    apt-get install -y libgl1-mesa-glx libsm6 libxext6 libxrender1 && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install Python packages
+# Copy requirements and install
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy the rest of the project files
+# Copy all project files
 COPY . /app
 
-# Create a folder for logs and database inside container
+# Create folder for data/logs
 RUN mkdir -p /app/data
 
-# Expose the port FastAPI will run on
+# Expose FastAPI port
 EXPOSE 8000
 
-# Run FastAPI app with Uvicorn
+# Run FastAPI app
 CMD ["uvicorn", "traffic_full:app", "--host", "0.0.0.0", "--port", "8000"]
